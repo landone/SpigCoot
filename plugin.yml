@@ -1,0 +1,4 @@
+name:            SpigCoot
+main:            com.coot.SpigCoot
+version:         1.0
+commands:
