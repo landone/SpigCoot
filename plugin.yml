@@ -1,4 +1,7 @@
 name:            SpigCoot
 main:            com.coot.SpigCoot
 version:         1.0
+api-version: 1.16
 commands:
+   sky:
+      description: Enter skyblock world
