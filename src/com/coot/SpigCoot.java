@@ -1,5 +1,6 @@
 package com.coot;
 
+import java.io.File;
 import java.util.logging.Logger;
 
 import org.bukkit.World;
@@ -29,6 +30,20 @@ public class SpigCoot extends JavaPlugin {
 		
 	}
 	
+	private boolean deleteWorld(File path) {
+	      if(path.exists()) {
+	          File files[] = path.listFiles();
+	          for(int i=0; i<files.length; i++) {
+	              if(files[i].isDirectory()) {
+	                  deleteWorld(files[i]);
+	              } else {
+	                  files[i].delete();
+	              }
+	          }
+	      }
+	      return(path.delete());
+	}
+	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		
@@ -40,6 +55,13 @@ public class SpigCoot extends JavaPlugin {
 		
 		switch(label) {
 		case "sky":
+			if (player.isOp() && args.length == 1 && args[0].equalsIgnoreCase("reset")) {
+				File path = skyblock.getWorldFolder();
+				skyblock = null;
+				this.getServer().unloadWorld("skyblock", true);
+				deleteWorld(path);
+				skyblock = skyGen.createWorld();
+			}
 			player.teleport(skyblock.getSpawnLocation(), TeleportCause.COMMAND);
 			break;
 		}
