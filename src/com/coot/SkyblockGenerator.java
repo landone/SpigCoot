@@ -57,12 +57,15 @@ public class SkyblockGenerator extends ChunkGenerator {
 			Chest chest = (Chest) world.getBlockAt(8, 101, 8).getState();
 			Inventory inven = chest.getInventory();
 			inven.clear();
-			ItemStack[] items = new ItemStack[5];
+			ItemStack[] items = new ItemStack[8];
 			items[0] = new ItemStack(Material.DIRT, 32);
 			items[1] = new ItemStack(Material.OAK_SAPLING, 1);
 			items[2] = new ItemStack(Material.LAVA_BUCKET, 1);
-			items[3] = new ItemStack(Material.ICE, 1);
-			items[4] = new ItemStack(Material.WHEAT_SEEDS, 1);
+			items[3] = new ItemStack(Material.WATER_BUCKET, 1);
+			items[4] = new ItemStack(Material.ICE, 1);
+			items[5] = new ItemStack(Material.WHEAT_SEEDS, 1);
+			items[6] = new ItemStack(Material.OBSIDIAN, 10);
+			items[7] = new ItemStack(Material.FLINT_AND_STEEL, 1);
 			inven.addItem(items);
 			
 		}
@@ -74,7 +77,6 @@ public class SkyblockGenerator extends ChunkGenerator {
 		WorldCreator wcr = new WorldCreator("skyblock");
 		wcr.generator(this);
 		World world = wcr.createWorld();
-		regenerateChunk(world, 0, 0);
 		world.setAnimalSpawnLimit(50);
 		world.setMonsterSpawnLimit(50);
 		world.setSpawnLocation(7, 101, 7);
