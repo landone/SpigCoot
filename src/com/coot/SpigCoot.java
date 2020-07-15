@@ -20,7 +20,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	
 	Logger log = this.getLogger();
 	World skyblock;
-	World skynether;
+	//World skynether;
 	SkyblockGenerator skyGen = new SkyblockGenerator();
 	SkynetherGenerator skynethGen = new SkynetherGenerator();
 	
@@ -29,7 +29,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
 		skyblock = skyGen.createWorld();
-		skynether = skynethGen.createWorld();
+		//skynether = skynethGen.createWorld();
 	
 	}
 	
@@ -75,11 +75,11 @@ public class SpigCoot extends JavaPlugin implements Listener {
 				skyblock = skyGen.createWorld();
 				skyGen.regenerateChunk(skyblock, 0, 0);*/
 				
-				File path = skynether.getWorldFolder();
+				/*File path = skynether.getWorldFolder();
 				skynether = null;
 				this.getServer().unloadWorld("skynether", true);
 				deleteWorld(path);
-				skynether = skynethGen.createWorld();
+				skynether = skynethGen.createWorld();*/
 				
 				player.sendMessage(ChatColor.LIGHT_PURPLE + "Skyblock worlds reset.");
 			}
@@ -94,7 +94,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	@EventHandler
 	public void OnPlayerPortal(PlayerPortalEvent event) {
 		
-		Location from = event.getFrom();
+		/*Location from = event.getFrom();
 		Location to = event.getTo();
 		
 		if (from.getWorld() == skyblock) {
@@ -108,7 +108,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 			to.setWorld(skyblock);
 			event.setTo(to);
 			
-		}
+		}*/
 		
 	}
 	
