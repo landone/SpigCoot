@@ -1,17 +1,24 @@
 package com.coot;
 
 import java.io.File;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
-import org.bukkit.Location;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
@@ -24,10 +31,17 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	SkyblockGenerator skyGen = new SkyblockGenerator();
 	SkynetherGenerator skynethGen = new SkynetherGenerator();
 	
+	Enchantment[] enchants = new Enchantment[1];
+	
+	
 	@Override
 	public void onEnable() {
 		
 		this.getServer().getPluginManager().registerEvents(this, this);
+		
+		enchants[0] = new AdamantEnchant(this);
+		registerEnchantments(enchants);
+		
 		skyblock = skyGen.createWorld();
 		//skynether = skynethGen.createWorld();
 	
@@ -36,7 +50,61 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	@Override
 	public void onDisable() {
 		
+		unregisterEnchantments(enchants);
 		
+	}
+	
+	public static boolean registerEnchantments(Enchantment[] ench) {
+		
+		try {
+			
+			Field f = Enchantment.class.getDeclaredField("acceptingNew");
+			f.setAccessible(true);
+			f.set(null, true);
+			for (int i = 0; i < ench.length; i++) {
+				Enchantment.registerEnchantment(ench[i]);
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+		
+	}
+	
+	public static void unregisterEnchantments(Enchantment[] ench) {
+		
+		try {
+			
+			Field keyField = Enchantment.class.getDeclaredField("byKey");
+			keyField.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			HashMap<NamespacedKey, Enchantment> byKey = (HashMap<NamespacedKey, Enchantment>) keyField.get(null);
+			
+			Field nameField = Enchantment.class.getDeclaredField("byName");
+			nameField.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			HashMap<String, Enchantment> byName = (HashMap<String, Enchantment>) nameField.get(null);
+			
+			for (int i = 0; i < ench.length; i++) {
+				
+				if (byKey.containsKey(ench[i].getKey())) {
+					byKey.remove(ench[i].getKey());
+				}
+				
+				if (byName.containsKey(ench[i].getName())) {
+					byName.remove(ench[i].getName());
+				}
+				
+			}
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -84,6 +152,23 @@ public class SpigCoot extends JavaPlugin implements Listener {
 				player.sendMessage(ChatColor.LIGHT_PURPLE + "Skyblock worlds reset.");
 			}
 			player.teleport(skyblock.getSpawnLocation(), TeleportCause.COMMAND);
+			break;
+			
+		case "test":
+			if (player.isOp()) {
+				ItemStack item = player.getItemInHand();
+				item.addUnsafeEnchantment(enchants[0], 0);
+				ItemMeta meta = item.getItemMeta();
+				ArrayList<String> lore = new ArrayList<String>();
+				lore.add(ChatColor.LIGHT_PURPLE + "Adamant");
+				if (meta.getLore() != null) {
+					lore.addAll(meta.getLore());
+				}
+				meta.setLore(lore);
+				item.setItemMeta(meta);
+				player.sendMessage(ChatColor.LIGHT_PURPLE + "Enchanted");
+				player.playSound(player.getLocation(), Sound.ENTITY_WANDERING_TRADER_DRINK_POTION, 1.0f, 1.0f);
+			}
 			break;
 		}
 		
