@@ -1,38 +1,51 @@
 package com.coot;
 
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.coot.rpg.Bounty;
+import com.coot.rpg.CoinBank;
 
 public class SpigCoot extends JavaPlugin implements Listener {
 	
-	Logger log = this.getLogger();
-	CoinBank bank;
+	//Global plugin reference
+	public static SpigCoot plugin;
+	public Logger log = this.getLogger();
+	public List<Module> modules = new ArrayList<Module>();
+	public HashMap<String, Module> commands = new HashMap<String, Module>();
+	
+	public CoinBank bank = new CoinBank(this);
+	public Bounty bounty = new Bounty(this);
 	
 	
 	@Override
 	public void onEnable() {
 		
+		plugin = this;
 		this.getServer().getPluginManager().registerEvents(this, this);
-		bank = new CoinBank(this);
+		
+		for (Module mod : modules) {
+			this.getServer().getPluginManager().registerEvents(mod, this);
+			mod.onEnable();
+			mod.addCommands();
+		}
 	
 	}
 	
 	@Override
 	public void onDisable() {
 		
-		bank.save();
+		for (Module mod : modules) {
+			mod.onDisable();
+		}
 		
 	}
 	
@@ -44,31 +57,15 @@ public class SpigCoot extends JavaPlugin implements Listener {
 		}
 		
 		Player player = (Player)sender;
+		label = label.toLowerCase();
 		
-		switch(label) {
-		case "bank":
-			player.sendMessage("Bank balance: " + ChatColor.GOLD + bank.get(player) + " coins");
-			break;
+		//Send command to correct module
+		Module mod = commands.get(label);
+		if (mod != null) {
+			mod.onCommand(player, label, args);
 		}
 		
 		return true;
-		
-	}
-	
-	@EventHandler
-	public void OnEntityDie(EntityDeathEvent event) {
-		
-		LivingEntity victim = event.getEntity();
-		Player killer = victim.getKiller();
-		if (killer != null && victim.getType() != EntityType.PLAYER) {
-			
-			killer.playSound(victim.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
-			Random rand = new Random();
-			long bounty = Math.abs(rand.nextLong()) % 3 + 1;
-			killer.sendMessage("Received " + ChatColor.GOLD + bounty + " gold");
-			bank.add(killer, bounty);
-			
-		}
 		
 	}
 	
