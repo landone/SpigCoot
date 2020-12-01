@@ -11,3 +11,7 @@ commands:
       description: Create a warp.
    remWarp:
       description: Remove a warp.
+   tpa:
+      description: Teleport request.
+   tpaccept:
+      description: Accept a teleport request.

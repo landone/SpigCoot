@@ -1,4 +1,4 @@
-package com.coot;
+package com.coot.teleport;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,6 +15,10 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
+
+import com.coot.Module;
+import com.coot.SpigCoot;
+import com.coot.Yaml;
 
 public class Warp extends Module implements TabCompleter {
 	
