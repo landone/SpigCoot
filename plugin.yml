@@ -5,3 +5,9 @@ api-version: 1.16
 commands:
    bank:
       description: View bank balance
+   warp:
+      description: Warp somewhere.
+   setWarp:
+      description: Create a warp.
+   remWarp:
+      description: Remove a warp.

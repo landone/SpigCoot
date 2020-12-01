@@ -1,4 +1,4 @@
-package com.coot;
+package com.coot.misc;
 
 import java.util.Random;
 

@@ -24,6 +24,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	
 	public CoinBank bank = new CoinBank(this);
 	public Bounty bounty = new Bounty(this);
+	public Warp warp = new Warp(this);
 	
 	
 	@Override
@@ -33,9 +34,9 @@ public class SpigCoot extends JavaPlugin implements Listener {
 		this.getServer().getPluginManager().registerEvents(this, this);
 		
 		for (Module mod : modules) {
-			this.getServer().getPluginManager().registerEvents(mod, this);
 			mod.onEnable();
 			mod.addCommands();
+			this.getServer().getPluginManager().registerEvents(mod, this);
 		}
 	
 	}

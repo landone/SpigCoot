@@ -26,6 +26,13 @@ public class CoinBank extends Module {
 	}
 	
 	@Override
+	public void onCommand(Player sender, String cmd, String[] args) {
+		
+		sender.sendMessage("Bank balance: " + ChatColor.GOLD + get(sender) + " coins");
+		
+	}
+	
+	@Override
 	public void onEnable() {
 		
 		commands.add("bank");
@@ -84,13 +91,6 @@ public class CoinBank extends Module {
 			yml.config.set(ent.getKey().toString(), ent.getValue());
 		}
 		return yml.save();
-		
-	}
-
-	@Override
-	public void onCommand(Player sender, String cmd, String[] args) {
-		
-		sender.sendMessage("Bank balance: " + ChatColor.GOLD + get(sender) + " coins");
 		
 	}
 	
