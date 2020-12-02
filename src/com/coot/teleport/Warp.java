@@ -13,7 +13,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
 import com.coot.Module;
@@ -104,7 +103,7 @@ public class Warp extends Module implements TabCompleter {
 			
 			Location loc = map.get(args[0]);
 			if (loc != null) {
-				sender.teleport(loc, TeleportCause.PLUGIN);
+				SpigCoot.plugin.teleTrack.tp(sender, loc);
 			}
 			else {
 				sender.sendMessage(ChatColor.DARK_GRAY + "Warp \"" + args[0] + "\" not found.");

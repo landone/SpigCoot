@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.coot.Module;
 import com.coot.SpigCoot;
@@ -82,9 +84,17 @@ public class TPA extends Module implements TabCompleter{
 			sender.sendMessage(ChatColor.DARK_PURPLE + "Accepted " + ChatColor.ITALIC + target.getDisplayName() +
 					ChatColor.RESET + ChatColor.DARK_PURPLE + "'s teleport request.");
 			map.remove(sender);
-			target.teleport(sender);
+			SpigCoot.plugin.teleTrack.tp(target, sender.getLocation());
 			
 		}
+		
+	}
+	
+	@EventHandler
+	public void OnDisconnect(PlayerQuitEvent event) {
+		
+		//Forget tpa requests for players who leave
+		map.remove(event.getPlayer());
 		
 	}
 

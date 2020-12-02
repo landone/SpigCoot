@@ -15,3 +15,5 @@ commands:
       description: Teleport request.
    tpaccept:
       description: Accept a teleport request.
+   back:
+      description: Teleport back to previous location.
