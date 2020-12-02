@@ -17,3 +17,7 @@ commands:
       description: Accept a teleport request.
    back:
       description: Teleport back to previous location.
+   spawn:
+      description: Teleport to the spawn area.
+   setspawn:
+      description: Set the spawn area for a world.

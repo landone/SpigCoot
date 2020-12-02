@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -32,6 +33,9 @@ public class TeleTracker extends Module {
 		
 		commands.add("back");
 		yml = new Yaml(FILE_NAME, SpigCoot.plugin);
+		for (Player p : SpigCoot.plugin.getServer().getOnlinePlayers()) {
+			loadPlayer(p);
+		}
 		
 	}
 
@@ -71,9 +75,34 @@ public class TeleTracker extends Module {
 	}
 	
 	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		
+		Player player = event.getEntity();
+		map.put(player, player.getLocation());
+		
+	}
+	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		
 		Player player = event.getPlayer();
+		loadPlayer(player);
+		
+	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent event) {
+		
+		Player player = event.getPlayer();
+		savePlayer(player);
+		
+		//Remove from immediate memory
+		map.remove(player);
+		
+	}
+	
+	private void loadPlayer(Player player) {
+		
 		String id = player.getUniqueId().toString();
 		//If back location saved
 		if (yml.config.contains(id, false)) {
@@ -89,17 +118,6 @@ public class TeleTracker extends Module {
 			map.put(player, loc);
 			
 		}
-		
-	}
-	
-	@EventHandler
-	public void onPlayerQuit(PlayerQuitEvent event) {
-		
-		Player player = event.getPlayer();
-		savePlayer(player);
-		
-		//Remove from immediate memory
-		map.remove(player);
 		
 	}
 	
