@@ -21,3 +21,7 @@ commands:
       description: Teleport to the spawn area.
    setspawn:
       description: Set the spawn area for a world.
+   home:
+      description: Teleport to your home.
+   sethome:
+      description: Set your home location.

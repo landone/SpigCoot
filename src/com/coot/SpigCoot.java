@@ -16,6 +16,7 @@ import com.coot.misc.SoleSleep;
 import com.coot.misc.SpawnControl;
 import com.coot.rpg.Bounty;
 import com.coot.rpg.CoinBank;
+import com.coot.teleport.Homes;
 import com.coot.teleport.TPA;
 import com.coot.teleport.TeleTracker;
 import com.coot.teleport.Warp;
@@ -36,6 +37,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	public SoleSleep soleSleep = new SoleSleep(this);
 	public SpawnControl spawnCtrl = new SpawnControl(this);
 	public NoRain noRain = new NoRain(this);
+	public Homes homes = new Homes(this);
 	
 	
 	@Override
