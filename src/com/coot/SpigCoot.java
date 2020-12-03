@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.coot.misc.NoRain;
 import com.coot.misc.SoleSleep;
 import com.coot.misc.SpawnControl;
 import com.coot.rpg.Bounty;
@@ -34,6 +35,7 @@ public class SpigCoot extends JavaPlugin implements Listener {
 	public TeleTracker teleTrack = new TeleTracker(this);
 	public SoleSleep soleSleep = new SoleSleep(this);
 	public SpawnControl spawnCtrl = new SpawnControl(this);
+	public NoRain noRain = new NoRain(this);
 	
 	
 	@Override

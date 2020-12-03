@@ -107,7 +107,9 @@ public class TPA extends Module implements TabCompleter{
 			String name = sender.getName();
 			for (Player player : SpigCoot.plugin.getServer().getOnlinePlayers()) {
 				if (!player.getDisplayName().contentEquals(name)) {
-					list.add(player.getDisplayName());
+					if (name.startsWith(args[0])) {
+						list.add(player.getDisplayName());
+					}
 				}
 			}
 		}
